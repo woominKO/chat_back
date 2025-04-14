@@ -1,16 +1,24 @@
 package com.example.realtime_chat_app.controller;
 
+import com.example.realtime_chat_app.domain.Message;
+import com.example.realtime_chat_app.dto.OutputMessage;
+import com.example.realtime_chat_app.service.chatService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class MessageController {
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
+    private final chatService chatService;
+
+    public MessageController(chatService chatService) {
+        this.chatService = chatService;
+    }
+
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public OutputMessage greeting(Message message) throws Exception {
+        return chatService.processMessage(message);
     }
 }
 

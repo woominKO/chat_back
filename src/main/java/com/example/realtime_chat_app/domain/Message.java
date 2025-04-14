@@ -20,8 +20,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String roomId;
     private String sender;
-    private String message;
-    private LocalDateTime timestamp;
+    private String content;
+    private String time;
 }
